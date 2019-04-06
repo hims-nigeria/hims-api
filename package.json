@@ -1,14 +1,17 @@
 {
   "name": "lexcare",
   "version": "1.0.0",
-  "description": "",
+  "description": "Hospital Management System",
   "main": "app.js",
   "scripts": {
+    "dev": "nodemon app.js",
+    "start": "npm start",
     "test": "npm run test"
   },
-  "author": "",
+  "author": "dixre",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^3.0.5",
     "body-parser": "^1.18.3",
     "compression": "^1.7.4",
     "connect-mongo": "^2.0.3",
