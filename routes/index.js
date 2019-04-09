@@ -1,5 +1,6 @@
 "use strict";
 
 module.exports = {
-    registrationRoute: require("./registration")
+    registrationRoute: require("./registration"),
+    adminRoute: require("./admin/adminRoute.js")
 };
