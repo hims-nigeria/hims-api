@@ -11,6 +11,7 @@ const config      = require("./utils/config.js");
 const bodyParser  = require("body-parser");
 const MongoStore  = require("connect-mongo")(session);
 const compression = require("compression");
+const middleware  = require("./middleware.js");
 
 const http   = require("http");
 const routes = require("./routes/");
@@ -25,6 +26,7 @@ app.use(helmet());
 app.use(compression());
 app.use(cors());
 
+
 app.use(session({
     secret: config.session_secret,
     resave: true,
@@ -33,7 +35,7 @@ app.use(session({
 }));
 
 app.use("/register", routes.registrationRoute.registerAdmin);
-
+app.use("/admin",    middleware.isAdminLogin, routes.adminRoute);
 
 app.all("*", ( error , req, res, next ) => {
     // just log out errors for now
