@@ -1,6 +1,7 @@
 "use strict";
 
 const http = require("http");
+const bcrypt = require("bcrypt");
 
 const emailRegexp = /^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$/i;
 
@@ -27,14 +28,20 @@ module.exports.validateClientInput = (values) => {
 
 module.exports.hashPassword = async (pwd, cpwd, next) => {
 
-    const bcrypt = require("bcrypt");
-
     if ( pwd !== cpwd ) return {
         status: 422,
         message: `password and confirm password does not match`
     };
 
     try { return await bcrypt.hash( pwd , 10 ); } catch(ex) { return next(ex); }
+};
+
+module.exports.comparePassword = async ( plaintextPwd, hashedPwd )  => {
+    try {
+        return (await bcrypt.compare( plaintextPwd, hashedPwd ));
+    } catch(ex) {
+        return ex;
+    }
 };
 
 module.exports.createExternalId = (...criteria) => {
@@ -49,3 +56,4 @@ module.exports.checkUserEmail = (email,next) => {
     };
     return {};
 };
+
