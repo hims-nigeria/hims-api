@@ -35,7 +35,8 @@ app.use(session({
 }));
 
 app.use("/register", routes.registrationRoute.registerAdmin);
-app.use("/admin",    middleware.isAdminLogin, routes.adminRoute);
+app.use("/dashboard", middleware.isLogin, routes.getDashboard );
+app.use("/login", routes.loginUser);
 
 app.all("*", ( error , req, res, next ) => {
     // just log out errors for now

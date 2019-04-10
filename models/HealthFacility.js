@@ -7,6 +7,8 @@ const healthFacilitySchema = new mongoose.Schema({
     password : mongoose.Schema.Types.String,
     fullName : mongoose.Schema.Types.String,
 
+    role     : mongoose.Schema.Types.String,
+
     healthFacilityId  : {
         type: mongoose.Schema.Types.String,
         unique: true
