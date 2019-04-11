@@ -5,6 +5,7 @@ require("./utils/connection.js");
 const express     = require("express");
 const mongoose    = require("mongoose");
 const helmet      = require("helmet");
+const multer      = require("multer")();
 const cors        = require("cors");
 const session     = require("express-session");
 const config      = require("./utils/config.js");
@@ -20,6 +21,7 @@ const app = express();
 
 app.set("PORT", process.env.PORT || config.port);
 
+app.use(multer.fields([]));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(helmet());
