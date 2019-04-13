@@ -19,7 +19,7 @@ const healthFacilitySchema = new mongoose.Schema({
         unique: true
     },
 
-    hospitalName: mongoose.Schema.Types.String,
+    healthCareName: mongoose.Schema.Types.String,
 
     location: {
         state : mongoose.Schema.Types.String,
