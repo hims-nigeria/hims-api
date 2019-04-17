@@ -39,3 +39,5 @@ const patientSchema = new mongoose.Schema({
         ref: "HealthFacility"
     }
 });
+
+module.exports = mongoose.model("Patient", patientSchema);

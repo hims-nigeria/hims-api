@@ -27,3 +27,5 @@ const accoutantSchema = new mongoose.Schema({
         ref: "HealthFacility"
     }
 });
+
+module.exports = mongoose.model("Accountants", accoutantSchema);
