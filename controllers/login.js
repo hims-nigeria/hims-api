@@ -39,18 +39,14 @@ module.exports.loginUser = async ( req , res , next ) => {
             return res.status(404).json( { status: 404 , message: `email and/or password is incorrect` } );
         }
 
-        switch(result.role) {
-        case "admin":
-            break;
-        case "":
-            break;
-        case "":
-            break;
-        default:
-            return res.status().json({ status: 400 , message: "" });
-        }
+        req.session.user = {
+            healthFacilityId: result.healthFacilityId,
+            fullName: result.fullName,
+            email: result.email,
+            role: result.role
+        };
 
-
+        return res.status(200).json( { status: 200 , message: req.session.user} );
 
     } catch(ex) {
         return next(ex);
