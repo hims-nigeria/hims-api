@@ -26,13 +26,14 @@ module.exports.loginUser = async ( req , res , next ) => {
             // others go here.
         ]);
 
+
         if ( ! result.every( x => x !== null) ) {
             return res.status(404).json({ status: 404 , message: `email and/or password is incorrect` });
         }
 
         result = result.find( x => x !== null );
 
-        const comparePassword = await util.compareHashedPassword(password,result.password);
+        const comparePassword = await util.comparePassword(password,result.password);
 
         if ( comparePassword instanceof Error ||  ! comparePassword ) {
             return res.status(404).json( { status: 404 , message: `email and/or password is incorrect` } );
