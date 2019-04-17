@@ -21,23 +21,20 @@ module.exports.loginUser = async ( req , res , next ) => {
 
     try {
 
-        let result = await Promise.all( [
-            await HealthFacility.findOne({ email })
-            // others go here.
-        ]);
+        let result = await util.isEmailExists(email);
 
-
-        if ( ! result.every( x => x !== null) ) {
-            return res.status(404).json({ status: 404 , message: `email and/or password is incorrect` });
+        // email does not exists
+        if ( ! result.length ) {
+            return res.status(404).json({ status: 404 , message: `${email} is not yet registered` });
         }
-
-        result = result.find( x => x !== null );
 
         const comparePassword = await util.comparePassword(password,result.password);
 
         if ( comparePassword instanceof Error ||  ! comparePassword ) {
             return res.status(404).json( { status: 404 , message: `email and/or password is incorrect` } );
         }
+
+        ( [ result ] = result );
 
         req.session.user = {
             healthFacilityId: result.healthFacilityId,

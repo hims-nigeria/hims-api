@@ -27,12 +27,12 @@ const patientSchema = new mongoose.Schema({
         occupation : mongoose.Schema.Types.String
     },
 
-    emergencyContacts : {
-        fullName     : mongoose.Schema.Types.String,
-        address      : mongoose.Schema.Types.String,
-        relationship : mongoose.Schema.Types.String,
-        phoneNumber  : mongoose.Schema.Types.Number
-    },
+    // emergencyContacts : [{
+    //     fullName     : mongoose.Schema.Types.String,
+    //     address      : mongoose.Schema.Types.String,
+    //     relationship : mongoose.Schema.Types.String,
+    //     phoneNumber  : mongoose.Schema.Types.Number
+    // }],
 
     healthFacility: {
         type: mongoose.Schema.Types.ObjectId,

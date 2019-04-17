@@ -36,7 +36,7 @@ app.use(session({
     store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
 
-app.use("/register", routes.registrationRoute.registerAdmin);
+app.use("/register", routes.registrationRoute);
 app.use("/dashboard", middleware.isLogin, routes.getDashboard );
 app.use("/login", routes.loginUser);
 

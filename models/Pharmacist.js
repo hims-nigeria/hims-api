@@ -7,6 +7,7 @@ const pharmacistSchema = new mongoose.Schema({
     address: mongoose.Schema.Types.String,
     fullName: mongoose.Schema.Types.String,
     password: mongoose.Schema.Types.String,
+    role: mongoose.Schema.Types.String,
 
     email: {
         type: mongoose.Schema.Types.String,
@@ -17,7 +18,7 @@ const pharmacistSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.Number,
         unique: true
     },
-    
+
     healthFacility: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "HealthFacility"
@@ -27,7 +28,7 @@ const pharmacistSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.String,
         unique: true
     }
-    
+
 });
 
 

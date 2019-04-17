@@ -35,12 +35,12 @@ const doctorSchema = new mongoose.Schema({
         ref: "HealthFacility"
     },
 
-    socialLinks: [
-        { facebook: mongoose.Schema.Types.String },
-        { twitter:  mongoose.Schema.Types.String },
-        { googlePlus: mongoose.Schema.Types.String },
-        { linkedin: mongoose.Schema.Types.String }
-    ]
+    socialLinks: {
+        facebook: mongoose.Schema.Types.String,
+        twitter:  mongoose.Schema.Types.String,
+        googlePlus: mongoose.Schema.Types.String,
+        linkedin: mongoose.Schema.Types.String
+    }
 });
 
 module.exports = mongoose.model("Doctor", doctorSchema);

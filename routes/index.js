@@ -1,8 +1,7 @@
 "use strict";
 
 module.exports = {
-    registrationRoute: require("./registration"),
-    adminRoute: require("./admin/adminRoute.js"),
+    registrationRoute: require("./register.js"),
     loginUser: require("./loginUser.js"),
     getDashboard: require("./getDashboard.js")
 };

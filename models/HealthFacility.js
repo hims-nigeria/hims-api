@@ -22,7 +22,7 @@ const healthFacilitySchema = new mongoose.Schema({
     dashboardInfo: {
         laboratorists: { type: mongoose.Schema.Types.Number , default: 0 },
         transactions:  { type: mongoose.Schema.Types.Number , default: 0 },
-        pharamcists:   { type: mongoose.Schema.Types.Number , default: 0 },
+        pharmacists:   { type: mongoose.Schema.Types.Number , default: 0 },
         accountants:   { type: mongoose.Schema.Types.Number , default: 0 },
         patients:      { type: mongoose.Schema.Types.Number , default: 0 },
         doctors:       { type: mongoose.Schema.Types.Number , default: 0 },
