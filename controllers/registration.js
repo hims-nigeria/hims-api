@@ -54,18 +54,20 @@ module.exports.registerAdmin = async (req,res,next) => {
     });
 
     try {
-
-        const healthFacility = await (new HealthFacility({
-            healthFacilityId : util.createExternalId(healthCareName,Date.now()),
+        
+        const healthFacilityId = util.createExternalId(healthCareName,Date.now());
+        
+        const healthFacility = await (new HealthFacility({    
             password         : hashedPassword,
             role             : "admin",
             location         : { state , lga , zone },
+            healthFacilityId,
             healthCareName,
             fullName,
             email
         })).save();
 
-        req.session.user = { fullName , role: "admin" , email } ;
+        req.session.user = { fullName , role: "admin" , email , healthFacilityId } ;
 
         return res.status(200).json({
             status: 200,
