@@ -38,7 +38,7 @@ module.exports.registerAdmin = async (req,res,next) => {
             email
         })).save();
 
-        req.session.user = { fullName , role: "admin" , email , healthFacilityId } ;
+        req.session.user = { fullName , role: "admin" , email } ;
 
         return res.status(200).json({ status: 200, message: "" });
 
@@ -69,7 +69,7 @@ module.exports.registerNurse = async ( req , res , next ) => {
         const nurseId = util.createExternalId(email,phoneNumber,Date.now());
 
         const nurse = await ( new model.nurse({
-            healthFacility: (await model.healthFacility.findOne( { healthFacilityId } ))._id,
+            healthFacility: healthFacilityId,
             password: req.hashedPassword,
             role: "nurse",
             fullName,
@@ -111,7 +111,7 @@ module.exports.registerAccountant = async ( req , res , next ) => {
         const accountantId = util.createExternalId(email,phoneNumber,Date.now());
 
         const accountant = await ( new model.accountants({
-            healthFacility: (await model.healthFacility.findOne( { healthFacilityId } ))._id,
+            healthFacility: healthFacilityId,
             password: req.hashedPassword,
             role: "accountant",
             fullName,
@@ -156,7 +156,7 @@ module.exports.registerDoctor = async ( req , res , next ) => {
         const doctorId = util.createExternalId(email,phoneNumber,Date.now());
 
         const doctor = await ( new model.doctor({
-            healthFacility: (await model.healthFacility.findOne( { healthFacilityId } ))._id,
+            healthFacility: healthFacilityId,
             socialLinks: { facebook , twitter, googlePlus, linkedin },
             password: req.hashedPassword,
             role: "doctor",
@@ -193,7 +193,7 @@ module.exports.registerIntern = async ( req , res , next ) => {
         const internId = util.createExternalId(email,phoneNumber,Date.now());
 
         const intern = await ( new model.intern({
-            healthFacility: (await model.healthFacility.findOne( { healthFacilityId } ))._id,
+            healthFacility: healthFacilityId,
             password: req.hashedPassword,
             role: "intern",
             fullName,
@@ -229,7 +229,7 @@ module.exports.registerLaboratorist = async ( req , res , next ) => {
         const laboratoristId = util.createExternalId(email,phoneNumber,Date.now());
 
         const laboratorist = await ( new model.laboratorist({
-            healthFacility: (await model.healthFacility.findOne( { healthFacilityId } ))._id,
+            healthFacility: healthFacilityId,
             password: req.hashedPassword,
             role: "laboratorist",
             fullName,
@@ -266,7 +266,7 @@ module.exports.registerPharmacist = async ( req , res , next ) => {
         const pharmacistId = util.createExternalId(email,phoneNumber,Date.now());
 
         const pharamacist = await ( new model.pharmacist({
-            healthFacility: (await model.healthFacility.findOne( { healthFacilityId } ))._id,
+            healthFacility: healthFacilityId,
             password: req.hashedPassword,
             role: "pharmacist",
             fullName,
@@ -311,7 +311,7 @@ module.exports.registerPatient = async ( req , res , next ) => {
         const patientId = util.createExternalId(email,phoneNumber,Date.now());
 
         const patient = await ( new model.patient({
-            healthFacility: (await model.healthFacility.findOne( { healthFacilityId } ))._id,
+            healthFacility: healthFacilityId,
             password: req.hashedPassword,
             role: "patient",
             phoneNumber,

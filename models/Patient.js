@@ -37,6 +37,11 @@ const patientSchema = new mongoose.Schema({
     healthFacility: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "HealthFacility"
+    },
+
+    patientId: {
+        type: mongoose.Schema.Types.String,
+        unique: true
     }
 });
 

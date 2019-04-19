@@ -25,7 +25,7 @@ const transactionSchema = new mongoose.Schema({
     },
     
     healthFacility: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.String,
         ref: "HealthFacility"
     },
 
