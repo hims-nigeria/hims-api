@@ -54,7 +54,6 @@ module.exports.registerNurse = async ( req , res , next ) => {
         address,
         fullName,
         password,
-        confirmPassword,
         rank,
         email,
         phoneNumber
@@ -97,7 +96,6 @@ module.exports.registerAccountant = async ( req , res , next ) => {
         address,
         fullName,
         password,
-        confirmPassword,
         email,
         phoneNumber
     } = req.body;
@@ -134,7 +132,6 @@ module.exports.registerDoctor = async ( req , res , next ) => {
         address,
         fullName,
         password,
-        confirmPassword,
         email,
         rank,
         phoneNumber,
@@ -179,7 +176,6 @@ module.exports.registerIntern = async ( req , res , next ) => {
         address,
         fullName,
         password,
-        confirmPassword,
         email,
         phoneNumber
     } = req.body;
@@ -215,7 +211,6 @@ module.exports.registerLaboratorist = async ( req , res , next ) => {
         address,
         fullName,
         password,
-        confirmPassword,
         email,
         phoneNumber
     } = req.body;
@@ -252,7 +247,6 @@ module.exports.registerPharmacist = async ( req , res , next ) => {
         address,
         fullName,
         password,
-        confirmPassword,
         email,
         phoneNumber
     } = req.body;
@@ -289,7 +283,6 @@ module.exports.registerPatient = async ( req , res , next ) => {
         cardNumber,
         code,
         password,
-        confirmPassword,
         email,
         phoneNumber,
         fullName,
