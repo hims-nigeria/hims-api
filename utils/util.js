@@ -30,7 +30,7 @@ module.exports.validateClientInput = (values) => {
 
 module.exports.hashPassword = async (pwd, cpwd, next) => {
 
-    if ( pwd !== cpwd ) return {
+    if ( cpwd && (pwd !== cpwd) ) return {
         status: 422,
         message: `password and confirm password does not match`
     };
