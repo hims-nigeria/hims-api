@@ -70,5 +70,6 @@ module.exports.isEmailExists = async ( email ) => (
         await model.intern.findOne({ email }),
         await model.laboratorist.findOne({ email }),
         await model.pharmacist.findOne({ email }),
+        await model.nurse.findOne({ email }),
     ])
 ).filter( x => x !== null);
