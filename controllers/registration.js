@@ -21,12 +21,14 @@ module.exports.registerAdmin = async (req,res,next) => {
         lga
     } = req.body;
 
+    console.log(req.body);
+
     // response has already been carried out
     if ( ( await dbutil.carryOutRegisOps(req,res,next) ) !== false ) return false;
 
     try {
 
-        const healthFacilityId = util.createExternalId(healthCareName,Date.now());
+        const healthFacilityId = util.createExternalId(healthCareName);
 
         const healthFacility = await (new model.healthFacility({
             password         : req.hashedPassword,
@@ -38,7 +40,7 @@ module.exports.registerAdmin = async (req,res,next) => {
             email
         })).save();
 
-        req.session.user = { fullName , role: "admin" , email } ;
+        req.session.user = { fullName , role: "admin" , email , healthFacilityId } ;
 
         return res.status(200).json({ status: 200, message: "" });
 
