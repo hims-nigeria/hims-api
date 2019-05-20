@@ -3,9 +3,7 @@
 const http = require("http");
 
 module.exports.isLogin = (req,res,next) => {
-    
-    const sessionObject = req.session.user;
-    
+    console.log(req.session.user);
     if ( ! req.session.user ) {
         return res.status(401).json({
             status: 401,

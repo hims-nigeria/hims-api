@@ -61,12 +61,14 @@ module.exports.registerNurse = async ( req , res , next ) => {
         phoneNumber
     } = req.body;
 
+    console.log(req.file);
+
     if ( ( await dbutil.carryOutRegisOps(req,res,next) ) !== false ) return false;
 
     const { healthFacilityId } = req.session.user;
 
     try {
-        
+
         const nurseId = util.createExternalId(email,phoneNumber,Date.now());
 
         const nurse = await ( new model.nurse({

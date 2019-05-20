@@ -16,23 +16,21 @@ const patientSchema = new mongoose.Schema({
         unique: true
     },
 
-    personaInfo : {
-        fullName   : mongoose.Schema.Types.String,
-        bloodGroup : mongoose.Schema.Types.String,
-        age        : mongoose.Schema.Types.Number,
-        dob        : mongoose.Schema.Types.Number,
-        weight     : mongoose.Schema.Types.String,
-        height     : mongoose.Schema.Types.String,
-        genotype   : mongoose.Schema.Types.String,
-        occupation : mongoose.Schema.Types.String
-    },
+    fullName   : mongoose.Schema.Types.String,
+    bloodGroup : mongoose.Schema.Types.String,
+    age        : mongoose.Schema.Types.Number,
+    dob        : mongoose.Schema.Types.Number,
+    weight     : mongoose.Schema.Types.String,
+    height     : mongoose.Schema.Types.String,
+    genotype   : mongoose.Schema.Types.String,
+    occupation : mongoose.Schema.Types.String,
 
-    // emergencyContacts : [{
-    //     fullName     : mongoose.Schema.Types.String,
-    //     address      : mongoose.Schema.Types.String,
-    //     relationship : mongoose.Schema.Types.String,
-    //     phoneNumber  : mongoose.Schema.Types.Number
-    // }],
+    emergencyContacts : [{
+        emergencyFullname     : mongoose.Schema.Types.String,
+        emergencyAddress      : mongoose.Schema.Types.String,
+        emergencyRelationship  : mongoose.Schema.Types.String,
+        emergencyPhonenumber  : mongoose.Schema.Types.Number
+    }],
 
     healthFacility: {
         type: mongoose.Schema.Types.ObjectId,

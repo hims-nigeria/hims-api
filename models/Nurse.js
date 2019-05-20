@@ -9,6 +9,8 @@ const nurseSchema = new mongoose.Schema({
     password: mongoose.Schema.Types.String,
     rank: mongoose.Schema.Types.String,
 
+    image: mongoose.Schema.Types.Buffer,
+
     email: {
         type: mongoose.Schema.Types.String,
         unique: true
@@ -18,7 +20,7 @@ const nurseSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.Number,
         unique: true
     },
-    
+
     healthFacility: {
         type: mongoose.Schema.Types.String,
         ref: "HealthFacility"
@@ -28,7 +30,7 @@ const nurseSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.String,
         unique: true
     }
-    
+
 });
 
 
