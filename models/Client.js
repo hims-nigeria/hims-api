@@ -2,8 +2,8 @@
 
 const mongoose = require("mongoose");
 
-const patientSchema = new mongoose.Schema({
-    
+const clientSchema = new mongoose.Schema({
+
     cardNumber     : mongoose.Schema.Types.Number,
     code           : mongoose.Schema.Types.String,
     password       : mongoose.Schema.Types.String,
@@ -37,10 +37,10 @@ const patientSchema = new mongoose.Schema({
         ref: "HealthFacility"
     },
 
-    patientId: {
+    clientId: {
         type: mongoose.Schema.Types.String,
         unique: true
     }
 });
 
-module.exports = mongoose.model("Patient", patientSchema);
+module.exports = mongoose.model("Clients", clientSchema);

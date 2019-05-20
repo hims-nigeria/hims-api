@@ -43,6 +43,8 @@ module.exports.loginUser = async ( req , res , next ) => {
             role: result.role
         };
 
+        console.log("logged in");
+
         return res.status(200).json( { status: 200 , message: req.session.user} );
 
     } catch(ex) {

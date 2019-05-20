@@ -30,13 +30,15 @@ app.use(cors());
 
 
 app.use(session({
+    key: "sessionId",
     secret: config.session_secret,
     resave: true,
     saveUninitialized: false,
     store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
 
-app.use("/register", routes.registrationRoute);
+app.use("/admin/register", routes.registrationRoute);
+app.use("/admin/loaduser", routes.loadUsers);
 app.use("/dashboard", middleware.isLogin, routes.getDashboard );
 app.use("/login", routes.loginUser);
 app.use("/logout", routes.logoutUser);
