@@ -6,7 +6,7 @@ const util = require("../utils/util.js");
 module.exports = async (req,res,next) => {
 
     const { fullName , role , healthFacilityId } = req.session.user;
-
+    console.log(healthFacilityId);
     try {
 
         const data = {};

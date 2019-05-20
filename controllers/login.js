@@ -28,7 +28,7 @@ module.exports.loginUser = async ( req , res , next ) => {
             return res.status(404).json({ status: 404 , message: `${email} is not yet registered` });
         }
 
-        const comparePassword = await util.comparePassword(password,result.password);
+        const comparePassword = await util.comparePassword(password,result[0].password);
 
         if ( comparePassword instanceof Error ||  ! comparePassword ) {
             return res.status(404).json( { status: 404 , message: `email and/or password is incorrect` } );
