@@ -21,7 +21,7 @@ const pharmacistSchema = new mongoose.Schema({
 
     healthFacility: {
         type: mongoose.Schema.Types.String,
-        ref: "HealthFacility"
+        ref: "HealthFacilities"
     },
 
     pharmacistId: {
@@ -32,4 +32,4 @@ const pharmacistSchema = new mongoose.Schema({
 });
 
 
-module.exports = mongoose.model("Pharmacist", pharmacistSchema);
+module.exports = mongoose.model("Pharmacists", pharmacistSchema);

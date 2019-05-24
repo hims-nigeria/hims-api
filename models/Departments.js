@@ -14,9 +14,9 @@ const departmentSchema = new mongoose.Schema({
 
     healthFacility: {
         type: mongoose.Schema.Types.String,
-        ref: "HealthFacility"
+        ref: "HealthFacilities"
     }
 });
 
 
-module.exports = mongoose.model("Department", departmentSchema);
+module.exports = mongoose.model("Departments", departmentSchema);

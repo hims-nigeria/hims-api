@@ -64,12 +64,30 @@ module.exports.checkUserEmail = (email,next) => {
 
 module.exports.isEmailExists = async ( email ) => (
     await Promise.all([
-        await model.healthFacility.findOne({ email }),
+        await model.healthFacilities.findOne({ email }),
         await model.accountants.findOne({ email }),
-        await model.doctor.findOne({ email }),
-        await model.intern.findOne({ email }),
-        await model.laboratorist.findOne({ email }),
-        await model.pharmacist.findOne({ email }),
-        await model.nurse.findOne({ email }),
+        await model.doctors.findOne({ email }),
+        await model.interns.findOne({ email }),
+        await model.laboratorists.findOne({ email }),
+        await model.pharmacists.findOne({ email }),
+        await model.nurses.findOne({ email }),
     ])
 ).filter( x => x !== null);
+
+
+module.exports.isValidImage = (req) => {
+
+    const fileType = require("file-type");
+    const fileObj = fileType(req.file.buffer);
+
+    const { mime, ext } = fileObj || { mime: undefined, ext: undefined };
+
+    if (!mime ||
+        !/(image\/gif|image\/png|image\/jpeg|image\/bmp|image\/webp)/.test(mime) ||
+        !/(gif|jpg|png|jpeg|bmp|webp)/.test(ext)
+       ) {
+        return false;
+    }
+    req.__image__buffer = `data:${mime};base64,${req.file.buffer.toString("base64")}`;
+    return true;
+};

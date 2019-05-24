@@ -34,7 +34,7 @@ const clientSchema = new mongoose.Schema({
 
     healthFacility: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "HealthFacility"
+        ref: "HealthFacilities"
     },
 
     clientId: {

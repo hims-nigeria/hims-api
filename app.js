@@ -21,7 +21,8 @@ const app = express();
 
 app.set("PORT", process.env.PORT || config.port);
 
-app.use(multer.fields([]));
+//app.use();
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(helmet());

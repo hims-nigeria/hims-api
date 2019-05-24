@@ -37,4 +37,4 @@ const healthFacilitySchema = new mongoose.Schema({
     zone  : mongoose.Schema.Types.String
 });
 
-module.exports = mongoose.model("HealthFacility", healthFacilitySchema);
+module.exports = mongoose.model("HealthFacilities", healthFacilitySchema);

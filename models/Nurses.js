@@ -9,7 +9,7 @@ const nurseSchema = new mongoose.Schema({
     password: mongoose.Schema.Types.String,
     rank: mongoose.Schema.Types.String,
 
-    image: mongoose.Schema.Types.Buffer,
+    image: mongoose.Schema.Types.String,
 
     email: {
         type: mongoose.Schema.Types.String,
@@ -23,7 +23,7 @@ const nurseSchema = new mongoose.Schema({
 
     healthFacility: {
         type: mongoose.Schema.Types.String,
-        ref: "HealthFacility"
+        ref: "HealthFacilities"
     },
 
     nurseId: {
@@ -34,4 +34,4 @@ const nurseSchema = new mongoose.Schema({
 });
 
 
-module.exports = mongoose.model("Nurse", nurseSchema);
+module.exports = mongoose.model("Nurses", nurseSchema);

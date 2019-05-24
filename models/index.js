@@ -1,15 +1,15 @@
 "use strict";
 
 module.exports = {
-    healthFacility : require("./HealthFacility.js"),
-    appointments   : require("./Appointments.js"),
-    laboratorist   : require("./Laboratorist.js"),
-    transaction    : require("./Transaction.js"),
-    accountants    : require("./Accountants.js"),
-    department     : require("./Department.js"),
-    pharmacist     : require("./Pharmacist.js"),
-    doctor         : require("./Doctor.js"),
-    intern         : require("./Intern.js"),
-    client         : require("./Client.js"),
-    nurse          : require("./Nurse.js")
+    healthFacilities : require("./HealthFacilities.js"),
+    appointments     : require("./Appointments.js"),
+    laboratorists    : require("./Laboratorists.js"),
+    transactions     : require("./Transactions.js"),
+    accountants      : require("./Accountants.js"),
+    departments      : require("./Departments.js"),
+    pharmacists      : require("./Pharmacists.js"),
+    doctors          : require("./Doctors.js"),
+    interns          : require("./Interns.js"),
+    clients          : require("./Clients.js"),
+    nurses           : require("./Nurses.js")
 };

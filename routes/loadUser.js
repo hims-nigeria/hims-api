@@ -8,13 +8,13 @@ const {
 } = require("../utils/dbUtil.js");
 
 const {
-    nurse,
-    doctor,
-    intern,
-    client,
-    pharmacist,
+    nurses,
+    doctors,
+    interns,
+    clients,
+    pharmacists,
     accountants,
-    laboratorist
+    laboratorists
 }  = require("../models/");
 
 
@@ -28,13 +28,13 @@ loadUser.get("/:type", (req,res,next) => {
 
             switch(req.params.type) {
 
-            case "laboratorist": return { type: "laboratorists" , colObject: laboratorist };
+            case "laboratorist": return { type: "laboratorists" , colObject: laboratorists };
             case "accountant"  : return { type: "accountants"   , colObject: accountants };
-            case "pharmacist"  : return { type: "pharmacists"   , colObject: pharmacist };
-            case "client"      : return { type: "clients"       , colObject: client };
-            case "doctor"      : return { type: "doctors"       , colObject: doctor };
-            case "intern"      : return { type: "interns"       , colObject: intern };
-            case "nurse"       : return { type: "nurses"        , colObject: nurse };
+            case "pharmacist"  : return { type: "pharmacists"   , colObject: pharmacists };
+            case "client"      : return { type: "clients"       , colObject: clients };
+            case "doctor"      : return { type: "doctors"       , colObject: doctors };
+            case "intern"      : return { type: "interns"       , colObject: interns };
+            case "nurse"       : return { type: "nurses"        , colObject: nurses };
             default            : error = 0; return {};
 
             }

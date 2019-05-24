@@ -27,12 +27,12 @@ const doctorSchema = new mongoose.Schema({
 
     department: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Department"
+        ref: "Departments"
     },
 
     healthFacility: {
         type: mongoose.Schema.Types.String,
-        ref: "HealthFacility"
+        ref: "HealthFacilities"
     },
 
     socialLinks: {
@@ -43,4 +43,4 @@ const doctorSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model("Doctor", doctorSchema);
+module.exports = mongoose.model("Doctors", doctorSchema);

@@ -16,17 +16,17 @@ const transactionSchema = new mongoose.Schema({
 
     department: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Department"
+        ref: "Departments"
     },
 
     patient: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Patient"
+        ref: "Clients"
     },
     
     healthFacility: {
         type: mongoose.Schema.Types.String,
-        ref: "HealthFacility"
+        ref: "HealthFacilities"
     },
 
     transactionId: {
@@ -37,4 +37,4 @@ const transactionSchema = new mongoose.Schema({
 });
 
 
-module.exports = mongoose.model("Transaction", transactionSchema);
+module.exports = mongoose.model("Transactions", transactionSchema);

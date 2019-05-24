@@ -5,7 +5,7 @@
 // but client. so next guy to maintain this code
 // don't think i am an asshole
 
-const HealthFacility = require("../models/HealthFacility.js");
+const HealthFacility = require("../models/HealthFacilities.js");
 const util = require("../utils/util.js");
 
 module.exports.loginUser = async ( req , res , next ) => {

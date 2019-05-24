@@ -2,7 +2,8 @@
 
 const { PAGE_LIMIT } = require("../utils/constants.js");
 
-const util = require("./util.js");
+const util  = require("./util.js");
+const model = require("../models/");
 
 module.exports.carryOutRegisOps = async (req,res,next) => {
 
@@ -51,11 +52,11 @@ module.exports.loadUserUniqueInterface = async (  req , res , next ) => {
 
         const { fullName, role } = req.session.user;
 
-        const nurseResult = await collection.colObject.find({}).skip(page * PAGE_LIMIT ).limit(PAGE_LIMIT).lean();
+        const result = await collection.colObject.find({}).skip(page * PAGE_LIMIT ).limit(PAGE_LIMIT).lean();
 
         const responseObject = {
             hasMore: await collection.colObject.count() > ((page + 1) * PAGE_LIMIT),
-            [collection.type]: nurseResult,
+            [collection.type]: result,
             fullName,
             role
         };
@@ -65,4 +66,31 @@ module.exports.loadUserUniqueInterface = async (  req , res , next ) => {
         console.log(ex);
         return next(ex);
     }
+};
+
+module.exports.saveUniqueUsers = async ( req , body ) => {
+
+    const { healthFacilityId } = req.session.user;
+
+    const userId = util.createExternalId(...Object.values(body.idCred));
+    const isImageValid  = util.isValidImage(req);
+
+    if ( ! isImageValid )
+        throw new Error("Invalid image type");
+
+    await ( new model[body.collection](
+        Object.assign(
+            body.data,
+            {
+                [body.idType]: userId,
+                healthFacility: healthFacilityId,
+                image: req.__image__buffer
+            }
+        )
+    )).save();
+
+    await model.healthFacilities.updateOne(
+        { healthFacilityId: healthFacilityId } ,
+        { $inc: { [`dashboardInfo.${body.collection}`] : 1 } }
+    );
 };

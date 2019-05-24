@@ -30,7 +30,7 @@ module.exports.registerAdmin = async (req,res,next) => {
 
         const healthFacilityId = util.createExternalId(healthCareName);
 
-        const healthFacility = await (new model.healthFacility({
+        const healthFacility = await (new model.healthFacilities({
             password         : req.hashedPassword,
             role             : "admin",
             location         : { state , lga , zone },
@@ -61,27 +61,31 @@ module.exports.registerNurse = async ( req , res , next ) => {
         phoneNumber
     } = req.body;
 
-    console.log(req.file);
-
     if ( ( await dbutil.carryOutRegisOps(req,res,next) ) !== false ) return false;
 
     const { healthFacilityId } = req.session.user;
 
     try {
 
-        const nurseId = util.createExternalId(email,phoneNumber,Date.now());
+        const nurseId = util.createExternalId(email,phoneNumber);
 
-        const nurse = await ( new model.nurse({
-            healthFacility: healthFacilityId,
-            password: req.hashedPassword,
-            role: "nurse",
-            fullName,
-            phoneNumber,
-            nurseId,
-            address,
-            email,
-            rank
-        })).save();
+        await dbutil.saveUniqueUsers( req , {
+            idType: "nurseId",
+            collection: "nurses",
+            idCred: {
+                email,
+                phoneNumber
+            },
+            data: {
+                password: req.hashedPassword,
+                role: "nurse",
+                fullName,
+                phoneNumber,
+                address,
+                email,
+                rank
+            }
+        });
 
         // since admin is registering nurses
         // no need to set req.session.user
