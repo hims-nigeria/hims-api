@@ -19,7 +19,7 @@ const clientSchema = new mongoose.Schema({
     fullName   : mongoose.Schema.Types.String,
     bloodGroup : mongoose.Schema.Types.String,
     age        : mongoose.Schema.Types.Number,
-    dob        : mongoose.Schema.Types.Number,
+    dob        : mongoose.Schema.Types.Date,
     weight     : mongoose.Schema.Types.String,
     height     : mongoose.Schema.Types.String,
     genotype   : mongoose.Schema.Types.String,
@@ -33,7 +33,7 @@ const clientSchema = new mongoose.Schema({
     }],
 
     healthFacility: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.String,
         ref: "HealthFacilities"
     },
 

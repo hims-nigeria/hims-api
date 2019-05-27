@@ -83,7 +83,7 @@ module.exports.saveUniqueUsers = async ( req , body ) => {
     }
 
     req[body.idType] = userId;
-
+    
     await ( new model[body.collection](
         Object.assign(
             body.data,

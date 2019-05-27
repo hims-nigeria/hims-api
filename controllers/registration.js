@@ -304,6 +304,7 @@ module.exports.registerPharmacist = async ( req , res , next ) => {
 module.exports.registerClient = async ( req , res , next ) => {
 
     const {
+        address,
         cardNumber,
         code,
         password,
@@ -319,8 +320,6 @@ module.exports.registerClient = async ( req , res , next ) => {
         occupation
     } = req.body;
 
-    console.log(req.body);
-
     if ( ( await dbutil.carryOutRegisOps(req,res,next) ) !== false ) return false;
 
     const { healthFacilityId } = req.session.user;
@@ -329,17 +328,31 @@ module.exports.registerClient = async ( req , res , next ) => {
 
         req.body.emergencyContacts = JSON.parse(req.body.emergencyContacts);
 
-        // const clientId = util.createExternalId(email,phoneNumber,Date.now());
-
-        // const client = await ( new model.client({
-        //     healthFacility: healthFacilityId,
-        //     password: req.hashedPassword,
-        //     role: "client",
-        //     phoneNumber,
-        //     clientId,
-        //     email,
-        //     personalInfo: { fullName, bloodGroup, age, dob, weight, height, genotype, occupation }
-        // })).save();
+        await dbutil.saveUniqueUsers( req , {
+            idType: "clientId",
+            collection: "clients",
+            idCred: {
+                email,
+                phoneNumber
+            },
+            data: {
+                emergencyContacts: req.body.emergencyContacts,
+                password: req.hashedPassword,
+                role: "client",
+                fullName,
+                phoneNumber,
+                address,
+                email,
+                cardNumber,
+                bloodGroup,
+                age,
+                dob,
+                weight,
+                height,
+                genotype,
+                occupation
+            }
+        });
 
         return res.status(200).json(
             {
@@ -348,14 +361,15 @@ module.exports.registerClient = async ( req , res , next ) => {
                     fullName,
                     phoneNumber,
                     email,
-                    clientId,
                     bloodGroup,
                     age,
                     dob,
                     weight,
                     height,
                     genotype,
-                    occupation
+                    occupation,
+                    emergencyContacts: req.body.emergencyContacts,
+                    clientId: req.clientId
                 }
             }
         );
