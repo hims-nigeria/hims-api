@@ -8,7 +8,7 @@ const clientSchema = new mongoose.Schema({
     code           : mongoose.Schema.Types.String,
     password       : mongoose.Schema.Types.String,
     phoneNumber    : mongoose.Schema.Types.Number,
-
+    image          : mongoose.Schema.Types.String,
     accountBalance : mongoose.Schema.Types.Decimal128,
 
     email : {
@@ -28,7 +28,7 @@ const clientSchema = new mongoose.Schema({
     emergencyContacts : [{
         emergencyFullname     : mongoose.Schema.Types.String,
         emergencyAddress      : mongoose.Schema.Types.String,
-        emergencyRelationship  : mongoose.Schema.Types.String,
+        emergencyRelationship : mongoose.Schema.Types.String,
         emergencyPhonenumber  : mongoose.Schema.Types.Number
     }],
 

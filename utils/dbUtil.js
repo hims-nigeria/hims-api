@@ -73,18 +73,23 @@ module.exports.saveUniqueUsers = async ( req , body ) => {
     const { healthFacilityId } = req.session.user;
 
     const userId = util.createExternalId(...Object.values(body.idCred));
-    const isImageValid  = util.isValidImage(req);
 
-    if ( ! isImageValid )
-        throw new Error("Invalid image type");
+
+    if ( req.file || req.files.length ) {
+        const isImageValid  = util.isValidImage(req);
+        if ( ! isImageValid )
+            throw new Error("Invalid image type");
+        body.data.image = req.__image__buffer;
+    }
+
+    req[body.idType] = userId;
 
     await ( new model[body.collection](
         Object.assign(
             body.data,
             {
                 [body.idType]: userId,
-                healthFacility: healthFacilityId,
-                image: req.__image__buffer
+                healthFacility: healthFacilityId
             }
         )
     )).save();

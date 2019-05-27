@@ -2,13 +2,14 @@
 
 const mongoose = require("mongoose");
 
-const pharmacistSchema = new mongoose.Schema({
+const receptionistSchema = new mongoose.Schema({
 
-    address  : mongoose.Schema.Types.String,
-    fullName : mongoose.Schema.Types.String,
-    password : mongoose.Schema.Types.String,
-    role     : mongoose.Schema.Types.String,
-    image    : mongoose.Schema.Types.String,
+    address   : mongoose.Schema.Types.String,
+    fullName  : mongoose.Schema.Types.String,
+    password  : mongoose.Schema.Types.String,
+
+    image     : mongoose.Schema.Types.String,
+
     email: {
         type: mongoose.Schema.Types.String,
         unique: true
@@ -24,7 +25,7 @@ const pharmacistSchema = new mongoose.Schema({
         ref: "HealthFacilities"
     },
 
-    pharmacistId: {
+    receptionistId: {
         type: mongoose.Schema.Types.String,
         unique: true
     }
@@ -32,4 +33,4 @@ const pharmacistSchema = new mongoose.Schema({
 });
 
 
-module.exports = mongoose.model("Pharmacists", pharmacistSchema);
+module.exports = mongoose.model("Receptionists", receptionistSchema);

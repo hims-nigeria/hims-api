@@ -2,10 +2,12 @@
 const mongoose = require("mongoose");
 
 const accoutantSchema = new mongoose.Schema({
-    
+
     address  : mongoose.Schema.Types.String,
     fullName : mongoose.Schema.Types.String,
     password : mongoose.Schema.Types.String,
+
+    image    : mongoose.Schema.Types.String,
 
     accountantId : {
         type: mongoose.Schema.Types.String,

@@ -67,8 +67,6 @@ module.exports.registerNurse = async ( req , res , next ) => {
 
     try {
 
-        const nurseId = util.createExternalId(email,phoneNumber);
-
         await dbutil.saveUniqueUsers( req , {
             idType: "nurseId",
             collection: "nurses",
@@ -90,7 +88,7 @@ module.exports.registerNurse = async ( req , res , next ) => {
         // since admin is registering nurses
         // no need to set req.session.user
         // only set req.session.user when nurse is logging in
-        return res.status(200).json({ status: 200, message: { fullName, address, email, rank , nurseId }});
+        return res.status(200).json({ status: 200, message: { fullName, address, email, rank , nurseId: req.nurseId }});
     } catch(ex) {
         return next(ex);
     }
@@ -114,20 +112,24 @@ module.exports.registerAccountant = async ( req , res , next ) => {
 
     try {
 
-        const accountantId = util.createExternalId(email,phoneNumber,Date.now());
+        await dbutil.saveUniqueUsers( req , {
+            idType: "accountantId",
+            collection: "accountants",
+            idCred: {
+                email,
+                phoneNumber
+            },
+            data: {
+                password: req.hashedPassword,
+                role: "accountant",
+                fullName,
+                phoneNumber,
+                address,
+                email
+            }
+        });
 
-        const accountant = await ( new model.accountants({
-            healthFacility: healthFacilityId,
-            password: req.hashedPassword,
-            role: "accountant",
-            fullName,
-            phoneNumber,
-            accountantId,
-            address,
-            email
-        })).save();
-
-        return res.status(200).json({ status: 200 , message: { address , phoneNumber , email , accountantId } });
+        return res.status(200).json({ status: 200 , message: { address , phoneNumber , email , accountantId: req.accountantId } });
     } catch(ex) {
         return next(ex);
     }
@@ -185,6 +187,7 @@ module.exports.registerIntern = async ( req , res , next ) => {
         fullName,
         password,
         email,
+        duty,
         phoneNumber
     } = req.body;
 
@@ -194,20 +197,25 @@ module.exports.registerIntern = async ( req , res , next ) => {
 
     try {
 
-        const internId = util.createExternalId(email,phoneNumber,Date.now());
+        await dbutil.saveUniqueUsers( req , {
+            idType: "internId",
+            collection: "interns",
+            idCred: {
+                email,
+                phoneNumber
+            },
+            data: {
+                password: req.hashedPassword,
+                role: "intern",
+                fullName,
+                phoneNumber,
+                address,
+                email,
+                duty
+            }
+        });
 
-        const intern = await ( new model.intern({
-            healthFacility: healthFacilityId,
-            password: req.hashedPassword,
-            role: "intern",
-            fullName,
-            phoneNumber,
-            internId,
-            address,
-            email
-        })).save();
-
-        return res.status(200).json({ status: 200 , message: { address , phoneNumber , email , internId } });
+        return res.status(200).json({ status: 200 , message: { address , phoneNumber , email , duty , internId: req.internId } });
     } catch(ex) {
         return next(ex);
     }
@@ -229,20 +237,24 @@ module.exports.registerLaboratorist = async ( req , res , next ) => {
 
     try {
 
-        const laboratoristId = util.createExternalId(email,phoneNumber,Date.now());
+        await dbutil.saveUniqueUsers( req , {
+            idType: "laboratoristId",
+            collection: "laboratorists",
+            idCred: {
+                email,
+                phoneNumber
+            },
+            data: {
+                password: req.hashedPassword,
+                role: "laboratorist",
+                fullName,
+                phoneNumber,
+                address,
+                email
+            }
+        });
 
-        const laboratorist = await ( new model.laboratorist({
-            healthFacility: healthFacilityId,
-            password: req.hashedPassword,
-            role: "laboratorist",
-            fullName,
-            phoneNumber,
-            laboratoristId,
-            address,
-            email
-        })).save();
-
-        return res.status(200).json({ status: 200 , message: { address , phoneNumber , email , laboratoristId } });
+        return res.status(200).json({ status: 200 , message: { address , phoneNumber , email , laboratoristId: req.laboratoristId } });
     } catch(ex) {
         return next(ex);
     }
@@ -265,27 +277,31 @@ module.exports.registerPharmacist = async ( req , res , next ) => {
 
     try {
 
-        const pharmacistId = util.createExternalId(email,phoneNumber,Date.now());
+        await dbutil.saveUniqueUsers( req , {
+            idType: "pharmacistId",
+            collection: "pharmacists",
+            idCred: {
+                email,
+                phoneNumber
+            },
+            data: {
+                password: req.hashedPassword,
+                role: "pharmacist",
+                fullName,
+                phoneNumber,
+                address,
+                email
+            }
+        });
 
-        const pharamacist = await ( new model.pharmacist({
-            healthFacility: healthFacilityId,
-            password: req.hashedPassword,
-            role: "pharmacist",
-            fullName,
-            phoneNumber,
-            pharmacistId,
-            address,
-            email
-        })).save();
-
-        return res.status(200).json({ status: 200 , message: { address , phoneNumber , email , pharmacistId } });
+        return res.status(200).json({ status: 200 , message: { address , phoneNumber , email , pharmacistId: req.pharmacistId } });
     } catch(ex) {
         return next(ex);
     }
 
 };
 
-module.exports.registerPatient = async ( req , res , next ) => {
+module.exports.registerClient = async ( req , res , next ) => {
 
     const {
         cardNumber,
@@ -303,23 +319,27 @@ module.exports.registerPatient = async ( req , res , next ) => {
         occupation
     } = req.body;
 
+    console.log(req.body);
+
     if ( ( await dbutil.carryOutRegisOps(req,res,next) ) !== false ) return false;
 
     const { healthFacilityId } = req.session.user;
 
     try {
 
-        const patientId = util.createExternalId(email,phoneNumber,Date.now());
+        req.body.emergencyContacts = JSON.parse(req.body.emergencyContacts);
 
-        const patient = await ( new model.patient({
-            healthFacility: healthFacilityId,
-            password: req.hashedPassword,
-            role: "patient",
-            phoneNumber,
-            patientId,
-            email,
-            personalInfo: { fullName, bloodGroup, age, dob, weight, height, genotype, occupation }
-        })).save();
+        // const clientId = util.createExternalId(email,phoneNumber,Date.now());
+
+        // const client = await ( new model.client({
+        //     healthFacility: healthFacilityId,
+        //     password: req.hashedPassword,
+        //     role: "client",
+        //     phoneNumber,
+        //     clientId,
+        //     email,
+        //     personalInfo: { fullName, bloodGroup, age, dob, weight, height, genotype, occupation }
+        // })).save();
 
         return res.status(200).json(
             {
@@ -328,7 +348,7 @@ module.exports.registerPatient = async ( req , res , next ) => {
                     fullName,
                     phoneNumber,
                     email,
-                    patientId,
+                    clientId,
                     bloodGroup,
                     age,
                     dob,
@@ -339,6 +359,46 @@ module.exports.registerPatient = async ( req , res , next ) => {
                 }
             }
         );
+    } catch(ex) {
+        return next(ex);
+    }
+
+};
+
+module.exports.registerReceptionist = async ( req , res , next ) => {
+
+    const {
+        address,
+        fullName,
+        password,
+        email,
+        phoneNumber
+    } = req.body;
+
+    if ( ( await dbutil.carryOutRegisOps(req,res,next) ) !== false ) return false;
+
+    const { healthFacilityId } = req.session.user;
+
+    try {
+
+        await dbutil.saveUniqueUsers( req , {
+            idType: "receptionistId",
+            collection: "receptionists",
+            idCred: {
+                email,
+                phoneNumber
+            },
+            data: {
+                password: req.hashedPassword,
+                role: "receptionist",
+                fullName,
+                phoneNumber,
+                address,
+                email
+            }
+        });
+
+        return res.status(200).json({ status: 200 , message: { address , phoneNumber , email , receptionistId: req.receptionistId } });
     } catch(ex) {
         return next(ex);
     }

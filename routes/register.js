@@ -24,32 +24,44 @@ registerRoute.post(
 
 registerRoute.post(
     "/accountant",
+    upload.single("image"),
     register.registerAccountant
 );
 
 registerRoute.post(
     "/doctor",
+    upload.single("image"),
     register.registerDoctor
 );
 
 registerRoute.post(
     "/intern",
+    multer().fields([]),
     register.registerIntern
 );
 
 registerRoute.post(
     "/laboratorist",
+    upload.single("image"),
     register.registerLaboratorist
 );
 
 registerRoute.post(
-    "/pharamcist",
+    "/pharmacist",
+    upload.single("image"),
     register.registerPharmacist
 );
 
 registerRoute.post(
-    "/patient",
-    register.registerPatient
+    "/client",
+    upload.single("image"),
+    register.registerClient
+);
+
+registerRoute.post(
+    "/receptionist",
+    upload.single("image"),
+    register.registerReceptionist
 );
 
 module.exports = registerRoute;

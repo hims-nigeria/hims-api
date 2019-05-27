@@ -14,9 +14,9 @@ const {
     clients,
     pharmacists,
     accountants,
-    laboratorists
+    laboratorists,
+    receptionists
 }  = require("../models/");
-
 
 loadUser.get("/:type", (req,res,next) => {
 
@@ -29,6 +29,7 @@ loadUser.get("/:type", (req,res,next) => {
             switch(req.params.type) {
 
             case "laboratorist": return { type: "laboratorists" , colObject: laboratorists };
+            case "receptionist": return { type: "receptionists" , colObject: receptionists };
             case "accountant"  : return { type: "accountants"   , colObject: accountants };
             case "pharmacist"  : return { type: "pharmacists"   , colObject: pharmacists };
             case "client"      : return { type: "clients"       , colObject: clients };

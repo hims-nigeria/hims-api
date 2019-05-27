@@ -8,7 +8,7 @@ const laboratoristSchema = new mongoose.Schema({
     fullName: mongoose.Schema.Types.String,
     password: mongoose.Schema.Types.String,
     role: mongoose.Schema.Types.String,
-
+    image: mongoose.Schema.Types.String,
     email: {
         type: mongoose.Schema.Types.String,
         unique: true

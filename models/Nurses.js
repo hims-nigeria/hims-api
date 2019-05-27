@@ -4,12 +4,12 @@ const mongoose = require("mongoose");
 
 const nurseSchema = new mongoose.Schema({
 
-    address: mongoose.Schema.Types.String,
-    fullName: mongoose.Schema.Types.String,
-    password: mongoose.Schema.Types.String,
-    rank: mongoose.Schema.Types.String,
+    address  : mongoose.Schema.Types.String,
+    fullName : mongoose.Schema.Types.String,
+    password : mongoose.Schema.Types.String,
+    rank     : mongoose.Schema.Types.String,
 
-    image: mongoose.Schema.Types.String,
+    image    : mongoose.Schema.Types.String,
 
     email: {
         type: mongoose.Schema.Types.String,

@@ -20,7 +20,7 @@ const appointmentSchema = new mongoose.Schema({
         ref: "HealthFacilities"
     },
 
-    patientId: {
+    clientId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Clients"
     },

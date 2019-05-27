@@ -46,7 +46,7 @@ app.use("/logout", routes.logoutUser);
 
 app.all("*", ( error , req, res, next ) => {
     // just log out errors for now
-    console.log(error);
+    console.log({...error});
     res.end("smething bad happened");
 });
 
