@@ -1,13 +1,10 @@
 "use strict";
-
 const express = require("express");
 const multer  = require("multer");
-const registerRoute = express.Router();
-
 const upload  = multer({ storage: multer.memoryStorage() });
+const register = require("../../controllers/registration.js");
 
-const register = require("../controllers/registration.js");
-
+const registerRoute = express.Router();
 
 
 registerRoute.post(
@@ -62,6 +59,24 @@ registerRoute.post(
     "/receptionist",
     upload.single("image"),
     register.registerReceptionist
+);
+
+registerRoute.post(
+    "/intervention",
+    multer().fields([]),
+    register.registerIntervention
+);
+
+registerRoute.post(
+    "/subintervention",
+    multer().fields([]),
+    register.registerSubIntervention
+);
+
+registerRoute.post(
+    "/department",
+    upload.single("image"),
+    register.registerDepartment
 );
 
 module.exports = registerRoute;

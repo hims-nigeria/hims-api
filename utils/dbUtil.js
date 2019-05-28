@@ -52,7 +52,7 @@ module.exports.loadUserUniqueInterface = async (  req , res , next ) => {
 
         const { fullName, role } = req.session.user;
 
-        const result = await collection.colObject.find({}).skip(page * PAGE_LIMIT ).limit(PAGE_LIMIT).lean();
+        const result = await collection.colObject.find({}, { password: false , _id: false }).skip(page * PAGE_LIMIT ).limit(PAGE_LIMIT).lean();
 
         const responseObject = {
             hasMore: await collection.colObject.count() > ((page + 1) * PAGE_LIMIT),
@@ -83,7 +83,7 @@ module.exports.saveUniqueUsers = async ( req , body ) => {
     }
 
     req[body.idType] = userId;
-    
+
     await ( new model[body.collection](
         Object.assign(
             body.data,
@@ -94,8 +94,9 @@ module.exports.saveUniqueUsers = async ( req , body ) => {
         )
     )).save();
 
-    await model.healthFacilities.updateOne(
-        { healthFacilityId: healthFacilityId } ,
-        { $inc: { [`dashboardInfo.${body.collection}`] : 1 } }
-    );
+    if ( ! body.notUser )
+        await model.healthFacilities.updateOne(
+            { healthFacilityId: healthFacilityId } ,
+            { $inc: { [`dashboardInfo.${body.collection}`] : 1 } }
+        );
 };

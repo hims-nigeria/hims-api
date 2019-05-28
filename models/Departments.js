@@ -6,6 +6,7 @@ const departmentSchema = new mongoose.Schema({
 
     name: mongoose.Schema.Types.String,
     description: mongoose.Schema.Types.String,
+    image: mongoose.Schema.Types.String,
 
     departmentId: {
         type: mongoose.Schema.Types.String,

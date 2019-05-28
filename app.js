@@ -12,7 +12,6 @@ const config      = require("./utils/config.js");
 const bodyParser  = require("body-parser");
 const MongoStore  = require("connect-mongo")(session);
 const compression = require("compression");
-const middleware  = require("./middleware.js");
 
 const http   = require("http");
 const routes = require("./routes/");
@@ -38,11 +37,7 @@ app.use(session({
     store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
 
-app.use("/admin/register", routes.registrationRoute);
-app.use("/admin/loaduser", routes.loadUsers);
-app.use("/dashboard", middleware.isLogin, routes.getDashboard );
-app.use("/login", routes.loginUser);
-app.use("/logout", routes.logoutUser);
+app.use("/admin", routes.adminRoute);
 
 app.all("*", ( error , req, res, next ) => {
     // just log out errors for now

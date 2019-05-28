@@ -144,6 +144,7 @@ module.exports.registerDoctor = async ( req , res , next ) => {
         password,
         email,
         rank,
+        department,
         phoneNumber,
         facebook,
         twitter,
@@ -160,21 +161,26 @@ module.exports.registerDoctor = async ( req , res , next ) => {
         // TODO: DON'T FORGET TO HANDLE DEPARTMENT OF
         // DOCTOR
 
-        const doctorId = util.createExternalId(email,phoneNumber,Date.now());
-
-        const doctor = await ( new model.doctor({
-            healthFacility: healthFacilityId,
-            socialLinks: { facebook , twitter, googlePlus, linkedin },
-            password: req.hashedPassword,
-            role: "doctor",
-            fullName,
-            phoneNumber,
-            doctorId,
-            address,
-            email
-        })).save();
-
-        return res.status(200).json({ status: 200 , message: { address , phoneNumber , email , doctorId } });
+        await dbutil.saveUniqueUsers( req , {
+            idType: "doctorId",
+            collection: "doctors",
+            idCred: {
+                email,
+                phoneNumber
+            },
+            data: {
+                password: req.hashedPassword,
+                role: "doctor",
+                department,
+                fullName,
+                phoneNumber,
+                address,
+                email,
+                rank,
+                socialLinks: { facebook , twitter, googlePlus, linkedin }
+            }
+        });
+        return res.status(200).json({ status: 200 , message: { address , phoneNumber , email , doctorId: req.doctorId } });
     } catch(ex) {
         return next(ex);
     }
@@ -417,4 +423,95 @@ module.exports.registerReceptionist = async ( req , res , next ) => {
         return next(ex);
     }
 
+};
+
+module.exports.registerIntervention = async ( req , res , next ) => {
+
+    const { interventionName } = req.body;
+
+    const validateInput = util.validateClientInput({ ...req.body });
+
+    if ( validateInput.status ) return res.status(validateInput.status).json({
+        status: validateInput.status,
+        message: validateInput.message
+    });
+
+    const { healthFacilityId } = req.session.user;
+
+    try {
+
+        await dbutil.saveUniqueUsers( req , {
+            notUser: true,
+            idType: "interventionId",
+            collection: "interventions",
+            idCred: { interventionName },
+            data: { interventionName }
+        });
+
+        return res.status(200).json({ status: 200 , message: { interventionName , interventionId: req.interventionId }});
+
+    } catch(ex) {
+        return next(ex);
+    };
+};
+
+
+module.exports.registerSubIntervention = async ( req , res , next ) => {
+
+    const { interventionName , subInterventionName } = req.body;
+
+    const validateInput = util.validateClientInput({ ...req.body });
+
+    if ( validateInput.status ) return res.status(validateInput.status).json({
+        status: validateInput.status,
+        message: validateInput.message
+    });
+
+    const { healthFacilityId } = req.session.user;
+
+    try {
+
+        await dbutil.saveUniqueUsers( req , {
+            notUser: true,
+            idType: "subInterventionId",
+            collection: "subinterventions",
+            idCred: { interventionName,subInterventionName },
+            data: { interventionName, subInterventionName }
+        });
+
+        return res.status(200).json({ status: 200 , message: { interventionName , subInterventionName , subInterventionId: req.subInterventionId }});
+
+    } catch(ex) {
+        return next(ex);
+    };
+};
+
+module.exports.registerDepartment = async ( req , res , next ) => {
+
+    const { name , description } = req.body;
+
+    const validateInput = util.validateClientInput({ ...req.body });
+
+    if ( validateInput.status ) return res.status(validateInput.status).json({
+        status: validateInput.status,
+        message: validateInput.message
+    });
+
+    const { healthFacilityId } = req.session.user;
+
+    try {
+
+        await dbutil.saveUniqueUsers( req , {
+            notUser: true,
+            idType: "departmentId",
+            collection: "departments",
+            idCred: { name , description },
+            data: { name, description }
+        });
+
+        return res.status(200).json({ status: 200 , message: { name , description , departmentId: req.departmentId }});
+
+    } catch(ex) {
+        return next(ex);
+    };
 };

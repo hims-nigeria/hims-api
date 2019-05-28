@@ -9,7 +9,7 @@ const doctorSchema = new mongoose.Schema({
     fullName   : mongoose.Schema.Types.String,
     password   : mongoose.Schema.Types.String,
     rank       : mongoose.Schema.Types.String,
-
+    department : mongoose.Schema.Types.String,
     image      : mongoose.Schema.Types.String,
 
     email: {

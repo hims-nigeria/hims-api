@@ -2,6 +2,8 @@
 
 module.exports = {
     healthFacilities : require("./HealthFacilities.js"),
+    subinterventions : require("./SubIntervention.js"),
+    interventions    : require("./Intervention.js"),
     laboratorists    : require("./Laboratorists.js"),
     receptionists    : require("./Receptionists.js"),
     appointments     : require("./Appointments.js"),
