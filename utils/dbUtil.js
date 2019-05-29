@@ -100,3 +100,41 @@ module.exports.saveUniqueUsers = async ( req , body ) => {
             { $inc: { [`dashboardInfo.${body.collection}`] : 1 } }
         );
 };
+
+
+module.exports.deleteUniqueUsers = async ( req , res , next ) => {
+
+    const { id: userId } = req.params;
+
+    const {
+        __internalProps: {
+            collection: { colObject , idType , type }
+        }
+    } = req;
+
+    if ( ! userId ) {
+        return next("userId cannot be undefined or null");
+    }
+
+    try {
+
+        const { healthFacilityId } = req.session.user;
+
+        const result = await colObject.findOneAndDelete( { [idType]: userId } );
+        console.log(result, idType, userId);
+        if ( ! result ) {
+            return res.status(200).json( { status: 200 , message: `${userId} cannot be deleted` });
+        }
+
+        if ( ! req.notUser )
+            await model.healthFacilities.updateOne(
+                { healthFacilityId: healthFacilityId } ,
+                { $inc: { [`dashboardInfo.${type}`] : -1 } }
+            );
+
+        return res.status(200).json({ status: 200 , message: `${userId} has been successfully deleted` });
+    } catch(ex) {
+        return next(ex);
+    }
+
+};

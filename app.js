@@ -28,7 +28,6 @@ app.use(helmet());
 app.use(compression());
 app.use(cors());
 
-
 app.use(session({
     key: "sessionId",
     secret: config.session_secret,
