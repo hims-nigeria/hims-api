@@ -108,7 +108,7 @@ module.exports.deleteUniqueUsers = async ( req , res , next ) => {
 
     const {
         __internalProps: {
-            collection: { colObject , idType , type }
+            collection: { colObject , idType , type  , notUser }
         }
     } = req;
 
@@ -126,7 +126,7 @@ module.exports.deleteUniqueUsers = async ( req , res , next ) => {
             return res.status(200).json( { status: 200 , message: `${userId} cannot be deleted` });
         }
 
-        if ( ! req.notUser )
+        if ( ! notUser )
             await model.healthFacilities.updateOne(
                 { healthFacilityId: healthFacilityId } ,
                 { $inc: { [`dashboardInfo.${type}`] : -1 } }
