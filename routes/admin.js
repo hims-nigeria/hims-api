@@ -12,7 +12,8 @@ const {
     loadUserRoute,
     registerRoute,
     logoutRoute,
-    loginRoute
+    loginRoute,
+    editRoute
 } = require("./admin/");
 
 
@@ -26,5 +27,11 @@ adminRoute.use(
     middleware.isLogin,
     deleteUserRoute
 );
+adminRoute.use(
+    "/edit",
+    middleware.isLogin,
+    editRoute
+);
+
 
 module.exports = adminRoute;

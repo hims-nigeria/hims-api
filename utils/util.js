@@ -28,7 +28,7 @@ module.exports.validateClientInput = (values) => {
     return {};
 };
 
-module.exports.hashPassword = async (pwd, cpwd, next) => {
+const hashPassword = async (pwd, cpwd, next) => {
 
     if ( cpwd && (pwd !== cpwd) ) return {
         status: 422,
@@ -37,6 +37,8 @@ module.exports.hashPassword = async (pwd, cpwd, next) => {
 
     try { return await bcrypt.hash( pwd , 10 ); } catch(ex) { return next(ex); }
 };
+
+module.exports.hashPassword = hashPassword;
 
 module.exports.comparePassword = async ( plaintextPwd, hashedPwd )  => {
     try {
@@ -62,7 +64,7 @@ module.exports.checkUserEmail = (email,next) => {
 // return value contain an array of a single element
 // or no element. The single element is the found data
 
-module.exports.isEmailExists = async ( email ) => (
+const isEmailExists = async ( email ) => (
     await Promise.all([
         await model.healthFacilities.findOne({ email }),
         await model.accountants.findOne({ email }),
@@ -75,8 +77,9 @@ module.exports.isEmailExists = async ( email ) => (
     ])
 ).filter( x => x !== null);
 
+module.exports.isEmailExists = isEmailExists;
 
-module.exports.isValidImage = (req) => {
+const isValidImage = (req) => {
 
     const fileType = require("file-type");
     const fileObj = fileType(req.file.buffer);
@@ -91,4 +94,46 @@ module.exports.isValidImage = (req) => {
     }
     req.__image__buffer = `data:${mime};base64,${req.file.buffer.toString("base64")}`;
     return true;
+};
+
+module.exports.isValidImage = isValidImage;
+
+module.exports.checkUploadedImage = req => {
+    if ( req.file || req.files.length ) {
+        const isImageValid  = isValidImage(req);
+        if ( ! isImageValid )
+            throw new Error("Invalid image type");
+        return req.__image__buffer;
+    }
+    return false;
+};
+
+module.exports.validateEditUserEmail = async (req,res,idType) => {
+
+    const result = await isEmailExists(req.body.email);
+
+    if ( result.length ) {
+        if ( Object.keys(result[0]._doc).includes(idType) )
+            delete req.body.email;
+        else
+            res.status(409).json(
+                {
+                    status: 409 ,
+                    message: `${req.body.email} is not available for use`
+                }
+            );
+    }
+    return;
+};
+
+module.exports.validateEditUserPassword = async (req,res) => {
+    if ( req.body.password.length !== 0 ) {
+        const hashedPassword = await hashPassword(req.body.password,req.body.confirmPassword,next);
+        if ( hashedPassword.status ) res.status(hashedPassword.status).json({
+            status: hashedPassword.status,
+            message: hashedPassword.message
+        });
+        req.body.password = hashedPassword;
+    } else delete req.body.password;
+    return;
 };

@@ -6,5 +6,6 @@ module.exports = {
     registerRoute  : require("./register.js"),
     loadUserRoute  : require("./loadUser.js"),
     logoutRoute    : require("./logout.js"),
-    loginRoute     : require("./login.js")
+    loginRoute     : require("./login.js"),
+    editRoute      : require("./editUsers.js")
 };

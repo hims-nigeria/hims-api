@@ -73,14 +73,9 @@ module.exports.saveUniqueUsers = async ( req , body ) => {
     const { healthFacilityId } = req.session.user;
 
     const userId = util.createExternalId(...Object.values(body.idCred));
+    const image  = util.checkUploadedImage(req);
 
-
-    if ( req.file || req.files.length ) {
-        const isImageValid  = util.isValidImage(req);
-        if ( ! isImageValid )
-            throw new Error("Invalid image type");
-        body.data.image = req.__image__buffer;
-    }
+    if ( image ) body.data.image = image;
 
     req[body.idType] = userId;
 
@@ -120,8 +115,8 @@ module.exports.deleteUniqueUsers = async ( req , res , next ) => {
 
         const { healthFacilityId } = req.session.user;
 
-        const result = await colObject.findOneAndDelete( { [idType]: userId } );
-        console.log(result, idType, userId);
+        const result = await colObject.findOneAndDelete( { healthFacility: healthFacilityId , [idType]: userId } );
+
         if ( ! result ) {
             return res.status(200).json( { status: 200 , message: `${userId} cannot be deleted` });
         }
@@ -136,5 +131,34 @@ module.exports.deleteUniqueUsers = async ( req , res , next ) => {
     } catch(ex) {
         return next(ex);
     }
+};
 
+module.exports.editUniqueUsers = async ( req , res , next ) => {
+
+    const {
+        __internalProps: {
+            collection: { colObject , idType , type  , notUser }
+        }
+    } = req;
+
+    try {
+
+        await util.validateEditUserEmail(req,res,idType);
+        await util.validateEditUserPassword(req,res);
+
+        const image = util.checkUploadedImage(req);
+        if ( image ) req.body.image = image;
+
+        const { healthFacilityId } = req.session.user;
+
+        const result = await colObject.findOneAndUpdate(
+            { healthFacility: healthFacilityId , [idType]: req.body[idType] },
+            { $set: req.body },
+            { new: true , fields: { password: false , _id: false } }
+        ).lean();
+
+        return res.status(200).json({ status: 200 , message: result });
+    } catch(ex) {
+        return next(ex);
+    }
 };
