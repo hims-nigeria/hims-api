@@ -27,10 +27,10 @@ const doctorSchema = new mongoose.Schema({
         unique: true
     },
 
-    department: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Departments"
-    },
+    // department: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "Departments"
+    // },
 
     healthFacility: {
         type: mongoose.Schema.Types.String,
